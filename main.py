@@ -17,11 +17,11 @@ images_metadata = []
 
 # Twilio credentials
 
-# account_sid = os.getenv('TWILIO_ACCOUNT_SID')
-# auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 
-# twilio_phone_number = '+15627413564'
-# authority_phone_number = '+918081660482'  # Replace with actual authority phone number
+twilio_phone_number = '+15627413564'
+authority_phone_number = '+918081660482'  # Replace with actual authority phone number
 
 # Initialize Twilio client
 client = Client(account_sid, auth_token)
