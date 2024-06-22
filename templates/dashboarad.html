@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garbage Severity Dashboard</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1, h2 {
+            color: #bb86fc;
+        }
+
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .image-item {
+            margin: 10px;
+            border: 1px solid #333333;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-item img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .image-item img {
+                max-width: 150px;
+                max-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Garbage Severity Dashboard</h1>
+
+    <h2>High Severity</h2>
+    <div id="highSeverityImages" class="image-container"></div>
+    
+    <h2>Low Severity</h2>
+    <div id="lowSeverityImages" class="image-container"></div>
+
+    <script>
+        async function fetchImages(severity) {
+            const response = await fetch(`http://localhost:5000/images/${severity}`);
+            const images = await response.json();
+            return images;
+        }
+
+        function displayImages(images, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            images.forEach(image => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                const imgElement = document.createElement('img');
+                imgElement.src = `http://localhost:5000/${image.file_path}`;
+                imageItem.appendChild(imgElement);
+                container.appendChild(imageItem);
+            });
+        }
+
+        async function loadDashboard() {
+            const highSeverityImages = await fetchImages('High Severity');
+            displayImages(highSeverityImages, 'highSeverityImages');
+
+            const lowSeverityImages = await fetchImages('Low Severity');
+            displayImages(lowSeverityImages, 'lowSeverityImages');
+        }
+
+        loadDashboard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAlert</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .main_container {
+            text-align: center;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1, h2 {
+            margin: 0 0 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #bb86fc;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #9b67cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="main_container">
+        <h1>EcoAlert</h1>
+        <h2>Choose an option</h2>
+        <button id="authorityButton">Authority</button>
+        <button id="publicButton">Public</button>
+    </div>
+
+    <script>
+        document.getElementById('authorityButton').addEventListener('click', function() {
+            window.location.href = '/dashboard';
+        });
+
+        document.getElementById('publicButton').addEventListener('click', function() {
+            window.location.href = '/public';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> EcoAlert </title>
+<link rel="stylesheet" href="style.css">
+<style>
+    /* style.css */
+
+.title_container {
+    display: flex;
+    justify-content: center;
+}
+.italic_text{
+    font-size: large;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.main_container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h1 {
+    color: #bb86fc;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #bb86fc;
+    color: #121212;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #3700b3;
+}
+
+#preview {
+    margin-top: 20px;
+    border: 1px solid #333333;
+    border-radius: 8px;
+}
+
+#result {
+    background-color: #1e1e1e;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#result p {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+#severity {
+    font-weight: bold;
+    color: #bb86fc;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="title_container">
+
+        <h1 class="title"> EcoAlert </h1>
+
+    </div>
+<div class="main_container">
+    
+    <h1>Upload Garbage Spill Image</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+    <img id="preview" src="" alt="Image preview" style="display:none; width: 200px; height: 200px;"/>
+
+</div>
+
+<div id="result" style="margin-top: 20px;">
+    <p>Severity: <span id="severity"></span></p>
+</div>
+</div>
+<script >
+
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select an image.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    // Display image preview
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const preview = document.getElementById('preview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+    }
+    reader.readAsDataURL(file);
+
+    // Send image to the server
+    fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const severityElement = document.getElementById('severity');
+        severityElement.textContent = data.severity;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+</script>
+</body>
+</html>
